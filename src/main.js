@@ -18,7 +18,8 @@ axios.apiDelete = function(uri,callback) {
 axios.apiPost = function(uri,parameters) {
 	return axios.post(api_url+uri,parameters,{
 		headers: { Authorization: "Token token="+api_key }
-	})}
+	})
+}
 
 
 let coop = false;

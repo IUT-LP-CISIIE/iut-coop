@@ -72,7 +72,7 @@
 					    <button class="button is-success">
 					      Se connecter
 					    </button>
-					    <a @click="mode='signup'">Créer un compte</a>
+					    <button class="button is-text" @click.stop.prevent="mode='signup'">Créer un compte</button>
 					  </p>
 					</div>
 				</form>
@@ -108,7 +108,7 @@ export default {
 						this.$emit('login');
 
 					}).catch(error => {
-						alert(error.response.data.error.join("\n"));
+						alert(error.response.data.error);
 					});
 				} else {
 					if(this.password != this.password_confirm) {

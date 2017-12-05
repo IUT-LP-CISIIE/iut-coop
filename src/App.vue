@@ -51,7 +51,9 @@ export default {
     },
     logIn() {
       this.member = JSON.parse(localStorage.getItem('member'));
-      this.isLogged=true;
+      if(this.member) {
+        this.isLogged=true;
+      }
     }
   }
 }
