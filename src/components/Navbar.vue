@@ -1,6 +1,6 @@
 <template>
 
-<nav class="navbar has-shadow is-fixed-top is-warning">
+<nav class="navbar has-shadow is-fixed-top is-warning navbar-principale">
   <div class="navbar-brand">
     <a class="navbar-item" href="/">
       <b>Co'op</b>
@@ -14,21 +14,6 @@
 	</div>
 
 	<div class="navbar-end">
-	  <div class="navbar-item">
-	    <div class="field is-grouped">
-	      <p class="control">
-	        <a class="button" @click="$bus.$emit('toggle-afficher-creation-channel')">
-			  <span class="icon">
-				<i class="fa fa-plus"></i>
-			  </span>
-			  <span>
-				Nouvelle conversation
-			  </span>
-			</a>
-
-	      </p>
-	    </div>
-	  </div>
 	  <div class="navbar-menu">
 
 	    <div class="navbar-start">
@@ -97,3 +82,8 @@ export default {
 	}
 </script>
 
+<style>
+.navbar.navbar-principale {
+	z-index: 31;
+}
+</style>

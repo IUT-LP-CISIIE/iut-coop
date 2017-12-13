@@ -5,7 +5,19 @@
 		<div class="panel">
 		  <p class="panel-heading">
 		    Conversations
+
+	        <button class="button is-small" @click="$bus.$emit('toggle-afficher-creation-channel')">
+			  <span class="icon">
+				<i class="fa fa-plus"></i>
+			  </span>
+			  <span>
+				Nouvelle conversation
+			  </span>
+			</button>
+
+
 		  </p>
+
 			<div v-if="noChannels" class="box">Aucune conversation disponible. <a class="" @click="$bus.$emit('toggle-afficher-creation-channel')">Créez-en une tout de suite</a></div>
 			<channel-list-item v-else v-for="channel in channels" :key="channel.id" :channel="channel"></channel-list-item>
 		</div>
