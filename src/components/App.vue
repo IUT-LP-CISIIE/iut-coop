@@ -1,16 +1,16 @@
 <template>
-	<div class="coop">
-		<login v-show="!isLogged" v-on:login="logIn()"></login>
-
-		<appli v-show="isLogged" v-on:logout="logOut()"></appli>
+	<div class="coop" v-if="isLoaded">
+    <navbar></navbar>
+    <accueil v-on:logout="logOut()" v-if="isLogged"></accueil>
+		<login v-on:login="logIn()" v-else></login>
 	</div>
 
 </template>
 
 <script>
 import Login from './Login.vue'
-import Appli from './Appli.vue'
-import {Bus} from './bus.js';
+import Accueil from './Accueil.vue'
+import Navbar from './Navbar.vue'
 
 
 
@@ -18,26 +18,32 @@ import {Bus} from './bus.js';
 
 export default {
   name: 'app',
-  components: {Login, Appli},
+  components: {Navbar, Login, Accueil},
   data : function() {
       return {
       active:false,
       member:false,
-      isLogged:false
+      isLogged:false,
+      isLoaded:false
     }
   },
   created() {
     const coop = this;
     this.logIn();
-    if(this.member.token) {
-      axios.apiGet('members/'+this.member.id+'/signedin?token='+this.member.token).then(function(response) {
+
+    if(this.member && this.member.token) {
+      axios.apiGet('members/'+this.member._id+'/signedin?token='+this.member.token).then(function(response) {
         coop.active = 'ok';
         coop.member = response.data;
         coop.isLogged = true;
+        coop.isLoaded = true;
       }).catch(function(error) {
+        coop.isLoaded = true;
         coop.member = false;
         coop.isLogged = false;
       });
+    } else {
+        coop.isLoaded = true;
     }
   },
   methods : {
@@ -50,8 +56,9 @@ export default {
         })
     },
     logIn() {
-      this.member = JSON.parse(localStorage.getItem('member'));
-      if(this.member) {
+      var member = JSON.parse(localStorage.getItem('member'));
+      if(member) {
+        this.member=member;
         this.isLogged=true;
       }
     }
