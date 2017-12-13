@@ -1,13 +1,13 @@
 <template>
 
 	<div class="channels-list">
-		<channel-add v-if="creationChannel"></channel-add>
 
 		<div class="panel">
 		  <p class="panel-heading">
 		    Conversations
 		  </p>
-			<channel-list-item v-for="channel in channels" :key="channel.id" :channel="channel"></channel-list-item>
+			<div v-if="noChannels" class="box">Aucune conversation disponible. <a class="" @click="$bus.$emit('toggle-afficher-creation-channel')">Créez-en une tout de suite</a></div>
+			<channel-list-item v-else v-for="channel in channels" :key="channel.id" :channel="channel"></channel-list-item>
 		</div>
 
 	</div>
@@ -16,27 +16,24 @@
 <script>
 
 import ChannelListItem from './ChannelListItem.vue'
-import ChannelAdd from './ChannelAdd.vue'
 
 export default {
 	name: 'channels-list',
-	components : {ChannelListItem, ChannelAdd},
+	components : {ChannelListItem},
+	props : ['channels'],
 		data () {
 			return {
-				creationChannel:false,
-				channels : []
 			}
 		},
-		created() {
-			axios.apiGet('channels'+this.addToken()).then(response => {
-				this.channels = response.data;
-			});
-
-			this.$bus.$on('toggle-afficher-creation-channel',() => {
-				this.creationChannel = !this.creationChannel;
-			})
+		computed : {
+			noChannels() {
+				this.channels.length == 0
+			}
+		},
+		methods : {
 		}
 }
+
 </script>
 
 <style>

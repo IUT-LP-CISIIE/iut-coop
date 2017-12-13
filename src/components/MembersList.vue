@@ -29,10 +29,8 @@ export default {
 		},
 		methods: {
 			chargerMembres() {
-				let coop = this;
-				let member = JSON.parse(localStorage.getItem('member'));
-				axios.apiGet('members'+this.addToken()).then(response => {
-					coop.members = response.data;
+				axios.apiGet('members').then(response => {
+					this.members = response.data;
 				});
 			}
 		}

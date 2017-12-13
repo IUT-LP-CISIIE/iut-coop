@@ -1,11 +1,17 @@
 <template>
 
-  <a class="panel-block" @click="selectChannel()">
+  <div class="panel-block channel-list-item">
     <span class="panel-icon">
       <i class="fa fa-comment"></i>
     </span>
+    <a :href="'#channel-'+channel.label" @click="selectChannel()">
     <b>{{ channel.topic }}</b>  <span class="tag">{{ channel.label }}</span>
-  </a>
+	</a>
+    <a class="panel-icon effacer-channel" @click="effacerChannel">
+      <i class="fa fa-trash has-text-dark"></i>
+    </a>
+
+  </div>
 
 </template>
 
@@ -23,12 +29,27 @@ export default {
 		},
 		methods: {
 			selectChannel() {
-				this.$bus.$emit('select-channel',this.channel);
+				this.$bus.$emit('select-channel',this.channel.label);
+			},
+			effacerChannel() {
+				if(confirm('Effacer ce channel ?')) {
+					if(confirm('Vous êtes vraiment sûr ?')) {
+						axios.apiDelete('channels/'+this.channel._id).then(() => {
+							this.$bus.$emit('afficher-channels');
+						});
+					}
+				}
+
 			}
 		}
 	}
 </script>
 
 <style>
-
+	.channel-list-item .effacer-channel {
+		visibility: hidden;
+	}	
+	.channel-list-item:hover .effacer-channel {
+		visibility: visible;
+	}	
 </style>

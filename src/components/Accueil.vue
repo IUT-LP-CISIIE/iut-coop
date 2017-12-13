@@ -1,17 +1,12 @@
 <template>
 
 	<section class="section coop-accueil">
-	    <div class="container">
-			<div class="columns">
-			  <div class="column">
-			    <members-list></members-list>
-			  </div>
-			  <div class="column is-three-quarters">
-				<channel v-if="channel" :channel="channel"></channel>
-			  	<channels-list v-else></channels-list>
-			  </div>
-			</div>  
-		</div>  
+		<members-list v-if="section=='members'"></members-list>
+		<div v-if="section=='channels'">
+			<channel-add v-if="creationChannel"></channel-add>
+		  	<channels-list :channels="channels"></channels-list>
+		</div>
+		<channel v-if="section =='channel'" :channel="channel"></channel>
 
 	</section>
 </template>
@@ -20,26 +15,73 @@
 import MembersList from './MembersList.vue'
 import ChannelsList from './ChannelsList.vue'
 import Channel from './Channel.vue'
+import ChannelAdd from './ChannelAdd.vue'
 
 export default {
 	name: 'accueil',
-	components: {MembersList, ChannelsList, Channel},
+	components: {MembersList, ChannelsList, Channel, ChannelAdd},
 		data () {
 			return {
-				member:false,
-				channel:false
+				creationChannel : false,
+				section:'channels',
+				channel:false,
+				channels:[],
 			}
 		},
 		created() {
-			this.member = JSON.parse(localStorage.getItem('member'));
-			this.$bus.$on('select-channel',(channel) => {
-				this.channel = channel;
+
+			this.$bus.$on('hash-nav',() => {
+				let hash = window.location.hash.replace('#','');
+				let tab = hash.split('-');
+				if(tab[0] == 'channel') {
+					this.$bus.$emit('select-channel',hash.replace('channel-',''))
+				} else {
+					this.section = hash;
+				}
 			});
+
+			this.$bus.$on('changer-section',(section) => {
+				this.section = section;
+				window.location.hash = section;
+			});
+
+
+			this.$bus.$on('toggle-afficher-creation-channel',() => {
+				this.creationChannel = !this.creationChannel;
+			});
+
+			this.$bus.$on('afficher-channels',() => {
+				this.chargerChannels();
+			});
+
+			this.$bus.$on('select-channel',(label) => {
+				if(label) {
+					this.channel=false;
+					this.channels.forEach((channel)=>{
+						if(label == channel.label) {
+							this.channel = channel;
+							this.section='channel';
+						}
+					})
+				}
+			});
+
+			this.chargerChannels(() => {
+				if(window.location.hash) {
+					this.$bus.$emit('hash-nav');
+				}
+			});
+
 
 		},
 		methods: {
-			logOut() {
-				this.$emit('logout');
+			chargerChannels(callback=false) {
+				axios.apiGet('channels').then(response => {
+					this.channels =  response.data;
+					if(callback) {
+						callback();						
+					}
+				});
 			}
 		}
 	}
