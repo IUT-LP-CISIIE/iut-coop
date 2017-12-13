@@ -75,7 +75,9 @@ export default {
 				this.chargerMessages();
 			})
 			setInterval(() => {
-				this.chargerMessages();
+				if(this.channel) {
+					this.chargerMessages();
+				}
 			},30000);
 		},
 		methods : {
