@@ -12,10 +12,6 @@ import Login from './components/Login.vue'
 import Accueil from './components/Accueil.vue'
 import Navbar from './components/Navbar.vue'
 
-
-
-
-
 export default {
   name: 'app',
   components: {Navbar, Login, Accueil},
@@ -29,10 +25,10 @@ export default {
   },
   created() {
     this.logIn();
-
     axios.apiGet('members/'+this.member._id+'/signedin').then((response) => {
       this.active = 'ok';
       this.member = response.data;
+      this.$store.commit('setMember',this.member)
       this.isLogged = true;
       this.isLoaded = true;
     }).catch((error) => {
@@ -51,11 +47,13 @@ export default {
       axios.apiDelete('members/signout').then(() => {
           this.isLogged=false;
           this.member=false;
-          localStorage.setItem('member',false);
+          this.$store.commit('setMember',false)
+          // localStorage.setItem('member',false);
         })
     },
     logIn() {
-      var member = JSON.parse(localStorage.getItem('member'));
+      // var member = JSON.parse(localStorage.getItem('member'));
+      var member = this.$store.state.member;
       if(member) {
         this.member=member;
         this.isLogged=true;

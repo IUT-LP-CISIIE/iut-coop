@@ -106,9 +106,9 @@ export default {
 						password : this.password
 					}).then(response => {
 						this.token=response.data;
-						localStorage.setItem('member', JSON.stringify(response.data));
+						// localStorage.setItem('member', JSON.stringify(response.data));
+				        this.$store.commit('setMember',response.data)
 						this.$emit('login');
-
 					}).catch(error => {
 						alert(error.response.data.error);
 					});

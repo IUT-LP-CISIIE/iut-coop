@@ -75,14 +75,15 @@ export default {
 		},
 		computed : {
 			memberLogged() {
-				let member = JSON.parse(localStorage.getItem('member'));
+				// let member = JSON.parse(localStorage.getItem('member'));
+      			let member = this.$store.state.member;
 				return member.fullname;
 			}
 		}
 	}
 </script>
 
-<style>
+<style scoped>
 .navbar.navbar-principale {
 	z-index: 31;
 }

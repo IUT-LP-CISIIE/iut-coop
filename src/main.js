@@ -1,13 +1,16 @@
 import Vue from 'vue'
+import store from './store.js'
 import App from './App.vue'
 
 const bus = new Vue()
 Vue.prototype.$bus = bus
 
 
-Vue.prototype.getMembreId = function() {
+Vue.prototype.getMembreId = () =>{
 	try {
-		let member = JSON.parse(localStorage.getItem('member'));
+				
+		//let member = JSON.parse(localStorage.getItem('member'));
+		let member = store.state.member;
 		return member._id;
 	} catch(e) {
 		return false;
@@ -19,7 +22,8 @@ let api_url = 'http://coop.api.netlor.fr/api/';
 
 axios.addToken = function() {
 	try {
-		let member = JSON.parse(localStorage.getItem('member'));
+		// let member = JSON.parse(localStorage.getItem('member'));
+		let member = store.state.member;
 		return '?token='+member.token;
 	} catch(e) {
 		return '';
@@ -61,20 +65,24 @@ Vue.prototype.MD5 = function(s){function L(k,d){return(k<<d)|(k>>>(32-d))}functi
 Vue.prototype.urlAvatar = function(email) {
 	return 'https://www.gravatar.com/avatar/'+this.MD5(email)+'?d=https://api.adorable.io/avatars/150/'+email	
 }
-
-
 Vue.directive('focus', {
- // When the bound element is inserted into the DOM...
  inserted: function (el) {
- // Focus the element
  el.focus()
  }
 });
 
-let coop = false;
- new Vue({
-  el: '#app',
-  render: h => h(App)
+store.subscribe((mutation, state) => {
+	localStorage.setItem('store', JSON.stringify(state));
+});
+
+
+new Vue({
+	el: '#app',
+	store,
+	beforeCreate() {
+		this.$store.commit('initialiseStore');
+	},
+	render: h => h(App)
 });
 
 
