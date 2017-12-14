@@ -62,6 +62,15 @@ Vue.prototype.urlAvatar = function(email) {
 	return 'https://www.gravatar.com/avatar/'+this.MD5(email)+'?d=https://api.adorable.io/avatars/150/'+email	
 }
 
+
+Vue.directive('focus', {
+ // When the bound element is inserted into the DOM...
+ inserted: function (el) {
+ // Focus the element
+ el.focus()
+ }
+});
+
 let coop = false;
  new Vue({
   el: '#app',

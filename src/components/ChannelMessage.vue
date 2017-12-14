@@ -13,7 +13,7 @@
 
 		<div class="field">
 		<p class="control">
-			<input type="text" v-model="message.message" class="input" @keyup.enter="enregistrerMessage" @keyup.escape="enregistrerMessage">
+			<input v-show="editerMessage" v-focus type="text" v-model="message.message" class="input" @keyup.enter="enregistrerMessage" @keyup.escape="enregistrerMessage">
 		</p>
 		</div>
 	</div>
@@ -92,10 +92,10 @@ export default {
 		position: relative;
 	}
 	.channel-message .media-right {
-		display: none;
+		visibility: hidden;
 	}
 	.channel-message:hover .media-right {
-		display: block;
+		visibility: visible;
 	}
 
 

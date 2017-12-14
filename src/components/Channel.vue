@@ -13,7 +13,7 @@
 		<div class="navbar-item edit-channel" v-if="editerChannel">
 			<div class="field">
 			<p class="control">
-				<input class="input" v-model="channel.topic" @keyup.enter="enregistrerChannel">
+				<input class="input" v-show="editerChannel" v-focus v-model="channel.topic" @keyup.enter="enregistrerChannel">
 			</p>
 		</div>
 		</div>
@@ -25,6 +25,12 @@
 		</div>
 
 		<div class="navbar-end">
+		      <div class="navbar-item">
+		      	<button class="button is-small is-danger" :class="{ 'is-loading' : !chargementTermine }" @click="chargerMessages">
+	          		<i class="fa fa-refresh"></i>
+		      		Rafraichir
+		      	</button>
+		      </div>
 		      <div class="navbar-item is-small has-text-dark">
 				<span class="tag">#{{ channel.label }}</span>
 		      </div>
@@ -62,7 +68,8 @@ export default {
 				message : '',
 				messages  :  [],
 				members : false,
-				editerChannel : false
+				editerChannel : false,
+				chargementTermine:false
 			}
 		},
 		created() {
@@ -88,6 +95,7 @@ export default {
 				this.$bus.$emit('changer-section','channels');				
 			},
 			chargerMessages() {
+				this.chargementTermine=false;
 				axios.apiGet('channels/'+this.channel._id+'/posts').then(response => {
 					this.messages = response.data;
 
@@ -104,6 +112,9 @@ export default {
 						message.last=cle == this.messages.length-1;
 						this.messages[cle] = message;
 					});
+					setTimeout(() => {
+						this.chargementTermine=true;
+					},1000);
 				});
 			},
 			getMembre(id) {
@@ -134,7 +145,7 @@ export default {
 		},
 		computed: {
 			noMessages () {
-				return this.messages.length == 0;
+				return this.chargementTermine && this.messages.length == 0;
 			},
 			topic() {
 				return this.channel.topic ? this.channel.topic : 'Sans titre';
