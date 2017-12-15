@@ -7,10 +7,11 @@
     </a>
   </div>
 	<div v-for="section in menu" class="navbar-item">
-		<a :href="'#'+section.cle" class="navbar-item" :class="{ 'is-active' : section.actif }" @click="changerSection(section)">
+	    <router-link exact :to="'/'+section.cle" class="navbar-item" :class="{ 'is-active' : section.actif }" @click="changerSection(section)">
 			<i class="fa" :class="'fa-'+section.icone"></i>
 			{{ section.titre }}
-		</a>
+	    </router-link>
+
 	</div>
 
 	<div class="navbar-end">
@@ -86,5 +87,8 @@ export default {
 <style scoped>
 .navbar.navbar-principale {
 	z-index: 31;
+}
+.navbar.navbar-principale .navbar-item.router-link-active{
+	background: white;
 }
 </style>

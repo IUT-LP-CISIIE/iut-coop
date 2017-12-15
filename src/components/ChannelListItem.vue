@@ -4,9 +4,9 @@
     <span class="panel-icon">
       <i class="fa fa-comment"></i>
     </span>
-    <a :href="'#channel-'+channel.label" @click="selectChannel()">
+	<router-link exact :to="'/channel/'+channel._id">
     <b>{{ channel.topic }}</b>  <span class="tag">{{ channel.label }}</span>
-	</a>
+	</router-link>
     <a class="panel-icon effacer-channel" @click="effacerChannel">
       <i class="fa fa-trash has-text-dark"></i>
     </a>

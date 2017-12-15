@@ -76,7 +76,8 @@ export default {
 				return this.urlAvatar(this.message.member.email);
 			},
 			monMessage() {
-				return this.getMembreId() == this.message.member_id;
+
+				return this.$store.state.member._id == this.message.member_id;
 			}
 		}
 	}

@@ -3,12 +3,12 @@
 <div class="channel">
 	<nav class="navbar is-primary is-fixed-top">
 		<div class="navbar-item">
-			<a class="button is-small" @click="retour()">
+			<router-link exact to="/channels" class="button is-small">
 			    <span class="icon">
 			      <i class="fa fa-arrow-left"></i>
 			    </span>
 			    <span>Retour</span>
-			</a>
+			</router-link>
 		</div>
 		<div class="navbar-item edit-channel" v-if="editerChannel">
 			<div class="field">
@@ -32,7 +32,7 @@
 		      	</button>
 		      </div>
 		      <div class="navbar-item is-small has-text-dark">
-				<span class="tag">#{{ channel.label }}</span>
+				<span class="tag">{{ channel.label }}</span>
 		      </div>
 		</div>		
 	</nav>
@@ -61,10 +61,10 @@ import ChannelMessage from './ChannelMessage.vue'
 
 export default {
 		name: 'channel',
-		props: ['channel'],
 		components : {ChannelMessage},
 		data () {
 			return {
+				channel : false,
 				message : '',
 				messages  :  [],
 				members : false,
@@ -73,10 +73,14 @@ export default {
 			}
 		},
 		created() {
+			axios.apiGet('channels/'+this.$route.params.id).then(response => {
+				this.channel = response.data;
 
-			axios.apiGet('members').then(response => {
-				this.members = response.data;
-				this.chargerMessages();
+				axios.apiGet('members').then(response => {
+					this.members = response.data;
+					this.chargerMessages();
+				});
+
 			});
 			this.$bus.$on('charger-message',() => {
 				this.chargerMessages();

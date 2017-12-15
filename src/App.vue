@@ -1,20 +1,26 @@
 <template>
 	<div class="coop" v-if="isLoaded">
-    <navbar v-if="isLogged"></navbar>
-    <accueil v-on:logout="logOut()" v-if="isLogged"></accueil>
-		<login v-on:login="logIn()" v-else></login>
+		<login v-if="!isLogged"></login>
+    <div v-else>
+      <navbar></navbar>
+      
+      <section class="section coop-accueil">
+        <router-view></router-view>
+      </section>
+
+    </div>
 	</div>
 
 </template>
 
 <script>
 import Login from './components/Login.vue'
-import Accueil from './components/Accueil.vue'
 import Navbar from './components/Navbar.vue'
+
 
 export default {
   name: 'app',
-  components: {Navbar, Login, Accueil},
+  components: {Navbar, Login},
   data : function() {
       return {
       active:false,
@@ -39,6 +45,10 @@ export default {
 
     this.$bus.$on('logout',() => {
       this.logOut();
+    });
+
+    this.$bus.$on('login',() => {
+      this.logIn();
     });
 
   },

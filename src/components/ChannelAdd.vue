@@ -12,12 +12,12 @@
 
 			<div class="field">
 			  <p class="control">
-			    <input class="input" type="text" placeholder="Titre" v-model="topic" @keyup="syncLabel">
+			    <input class="input" type="text" placeholder="Titre" v-model="topic">
 			  </p>
 			</div>
 			<div class="field">
 			  <p class="control">
-			    <input class="input" type="text" placeholder="Label" v-model="label" @keyup="slugify">
+			    <input class="input" type="text" placeholder="Description" v-model="label">
 			  </p>
 			</div>
 			<div class="field">
@@ -55,28 +55,28 @@ export default {
 			fermerModal() {
 				this.$bus.$emit('toggle-afficher-creation-channel');
 			},
-			syncLabel() {
-				this.label = this.topic;
-				this.slugify();
-			},
-			slugify() {
-				let str = this.label.replace(/^\s+|\s+$/g, ''); // trim
-				str = str.toLowerCase();
+			// syncLabel() {
+			// 	this.label = this.topic;
+			// 	this.slugify();
+			// },
+			// slugify() {
+			// 	let str = this.label.replace(/^\s+|\s+$/g, ''); // trim
+			// 	str = str.toLowerCase();
 
-				// remove accents, swap ñ for n, etc
-				var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
-				var to   = "aaaaeeeeiiiioooouuuunc------";
+			// 	// remove accents, swap ñ for n, etc
+			// 	var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+			// 	var to   = "aaaaeeeeiiiioooouuuunc------";
 
-				for (var i=0, l=from.length ; i<l ; i++)
-				str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+			// 	for (var i=0, l=from.length ; i<l ; i++)
+			// 	str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
 
 
-				str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
-				.replace(/\s+/g, '-') // collapse whitespace and replace by -
-				.replace(/-+/g, '-'); // collapse dashes
+			// 	str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+			// 	.replace(/\s+/g, '-') // collapse whitespace and replace by -
+			// 	.replace(/-+/g, '-'); // collapse dashes
 
-				this.label = str;
-			},
+			// 	this.label = str;
+			// },
 			onSubmit() {
 				axios.apiPost('channels',this.$data).then(response => {
 					this.$bus.$emit('afficher-channels');

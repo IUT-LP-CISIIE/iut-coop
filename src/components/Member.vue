@@ -22,7 +22,7 @@ export default {
 		props : ['member'],
 		methods : {
 			effacerMembre() {
-				if(this.getMembreId() == this.member._id) {
+				if(this.$store.state.member._id == this.member._id) {
 					alert('Vous ne pouvez pas effacer votre compte membre.');
 				} else if(confirm('Effacer ce membre ?')) {
 					axios.apiDelete('members/'+this.member._id).then(response => {

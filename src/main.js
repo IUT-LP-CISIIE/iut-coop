@@ -1,26 +1,33 @@
 import Vue from 'vue'
 import store from './store.js'
+import VueRouter from 'vue-router'
+import router from './routes.js';
 import App from './App.vue'
+import MembersList from './components/MembersList.vue'
+import Channels from './components/Channels.vue'
+
+
+Vue.use(VueRouter);
 
 const bus = new Vue()
 Vue.prototype.$bus = bus
 
 
-Vue.prototype.getMembreId = () =>{
-	try {
+// Vue.prototype.getMembreId = () =>{
+// 	try {
 				
-		//let member = JSON.parse(localStorage.getItem('member'));
-		let member = store.state.member;
-		return member._id;
-	} catch(e) {
-		return false;
-	}
-}
+// 		//let member = JSON.parse(localStorage.getItem('member'));
+// 		let member = store.state.member;
+// 		return member._id;
+// 	} catch(e) {
+// 		return false;
+// 	}
+// }
 
 let api_key = '21a01cd586f74a66b16926aa36b5bf9c';
 let api_url = 'http://coop.api.netlor.fr/api/';
 
-axios.addToken = function() {
+axios.addToken = () => {
 	try {
 		// let member = JSON.parse(localStorage.getItem('member'));
 		let member = store.state.member;
@@ -65,6 +72,7 @@ Vue.prototype.MD5 = function(s){function L(k,d){return(k<<d)|(k>>>(32-d))}functi
 Vue.prototype.urlAvatar = function(email) {
 	return 'https://www.gravatar.com/avatar/'+this.MD5(email)+'?d=https://api.adorable.io/avatars/150/'+email	
 }
+
 Vue.directive('focus', {
  inserted: function (el) {
  el.focus()
@@ -79,6 +87,7 @@ store.subscribe((mutation, state) => {
 new Vue({
 	el: '#app',
 	store,
+	router,
 	beforeCreate() {
 		this.$store.commit('initialiseStore');
 	},
