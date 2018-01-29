@@ -29,7 +29,7 @@ export default {
 		},
 		methods: {
 			chargerMembres() {
-				axios.apiGet('members').then(response => {
+				window.axios.get('members').then(response => {
 					this.members = response.data;
 				});
 			}

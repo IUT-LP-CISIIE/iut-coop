@@ -99,7 +99,7 @@ export default {
 		methods : {
 			onSubmit() {
 				if(this.mode == 'login') {
-					axios.apiPost('members/signin',{
+					window.axios.post('members/signin',{
 						email : this.email,
 						password : this.password
 					}).then(response => {
@@ -114,7 +114,7 @@ export default {
 					if(this.password != this.password_confirm) {
 						alert('Les deux mots de passe sont différents');
 					} else {
-						axios.apiPost('members',{
+						window.axios.post('members',{
 							fullname : this.name,
 							email : this.email,
 							password : this.password

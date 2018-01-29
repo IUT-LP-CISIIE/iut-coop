@@ -13,7 +13,7 @@
 
 		<div class="field">
 		<p class="control">
-			<input v-show="editerMessage" v-focus type="text" v-model="message.message" class="input" @keyup.enter="enregistrerMessage" @keyup.escape="enregistrerMessage">
+			<input v-show="editerMessage" v-focus type="text" v-model="messageTemporaire" class="input" @keyup.enter="enregistrerMessage" @keyup.escape="enregistrerMessage">
 		</p>
 		</div>
 	</div>
@@ -44,29 +44,31 @@ export default {
 		props: ['message'],
 		data () {
 			return {
-				editerMessage:false
+				editerMessage:false,
+				messageTemporaire:''
 			}
 		},
 		created() {
-			if(this.message.last) {
-				setTimeout(function() {
-					window.scrollTo(0,document.body.scrollHeight);
-				},100);
-			}
 		},
 		methods : {
 			toggleEdit() {
-				this.editerMessage=!this.editerMessage;
+				if(this.editerMessage) {
+					this.editerMessage=false;
+				} else {
+					this.messageTemporaire=this.message.message;
+					this.editerMessage=true;
+				}
+
 			},
 			deleteMessage() {
 				if(confirm('Effacer ce message ?')) {
-					axios.apiDelete('channels/'+this.message.channel_id+'/posts/'+this.message._id).then(() => {
+					window.axios.delete('channels/'+this.message.channel_id+'/posts/'+this.message._id).then(() => {
 						this.$bus.$emit('charger-message');
 					});
 				}
 			},
 			enregistrerMessage() {
-				axios.apiPatch('channels/'+this.message.channel_id+'/posts/'+this.message._id,{message:this.message.message}).then(() => {
+				window.axios.patch('channels/'+this.message.channel_id+'/posts/'+this.message._id,{message:this.messageTemporaire}).then(() => {
 					this.editerMessage=false;
 				});
 			}

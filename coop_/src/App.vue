@@ -30,7 +30,7 @@ export default {
     const coop = this;
     this.logIn();
     if(this.member.token) {
-      axios.apiGet('members/'+this.member.id+'/signedin?token='+this.member.token).then(function(response) {
+      window.axios.get('members/'+this.member.id+'/signedin?token='+this.member.token).then(function(response) {
         coop.active = 'ok';
         coop.member = response.data;
         coop.isLogged = true;
@@ -43,7 +43,7 @@ export default {
   methods : {
     logOut() {
       const coop = this;
-      axios.apiDelete('members/signout?token='+coop.member.token).then(function() {
+      window.axios.delete('members/signout?token='+coop.member.token).then(function() {
           coop.isLogged=false;
           coop.member=false;
           localStorage.setItem('member',false);

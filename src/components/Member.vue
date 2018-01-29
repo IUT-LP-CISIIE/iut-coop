@@ -25,7 +25,7 @@ export default {
 				if(this.$store.state.member._id == this.member._id) {
 					alert('Vous ne pouvez pas effacer votre compte membre.');
 				} else if(confirm('Effacer ce membre ?')) {
-					axios.apiDelete('members/'+this.member._id).then(response => {
+					window.axios.delete('members/'+this.member._id).then(response => {
 						this.$bus.$emit('chargement-membres');
 					});
 				}

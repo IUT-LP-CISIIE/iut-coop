@@ -78,7 +78,7 @@ export default {
 			// 	this.label = str;
 			// },
 			onSubmit() {
-				axios.apiPost('channels',this.$data).then(response => {
+				window.axios.post('channels',this.$data).then(response => {
 					this.$bus.$emit('afficher-channels');
 					this.fermerModal();
 				});

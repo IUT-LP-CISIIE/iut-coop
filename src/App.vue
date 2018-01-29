@@ -31,10 +31,11 @@ export default {
   },
   created() {
     this.logIn();
-    axios.apiGet('members/'+this.member._id+'/signedin').then((response) => {
+    window.axios.get('members/'+this.member._id+'/signedin').then((response) => {
       this.active = 'ok';
       this.member = response.data;
       this.$store.commit('setMember',this.member)
+      this.$store.commit('setToken',this.member.token)
       this.isLogged = true;
       this.isLoaded = true;
     }).catch((error) => {
@@ -58,15 +59,15 @@ export default {
           this.isLogged=false;
           this.member=false;
           this.$store.commit('setMember',false)
-          // localStorage.setItem('member',false);
+          this.$store.commit('setToken',false)
         })
     },
     logIn() {
-      // var member = JSON.parse(localStorage.getItem('member'));
       var member = this.$store.state.member;
       if(member) {
         this.member=member;
         this.isLogged=true;
+        window.axios.defaults.params.token = this.$store.state.token;
       }
     }
   }

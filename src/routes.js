@@ -6,6 +6,7 @@ const routes = [
   	component: require('./components/Channels').default
   },
   { 
+    name: 'channel', 
   	path: '/channel/:id', 
   	component: require('./components/Channel').default
   },

@@ -73,23 +73,24 @@ export default {
 			}
 		},
 		created() {
-			axios.apiGet('channels/'+this.$route.params.id).then(response => {
+			window.axios.get('channels/'+this.$route.params.id).then(response => {
 				this.channel = response.data;
 
-				axios.apiGet('members').then(response => {
+				window.axios.get('members').then(response => {
 					this.members = response.data;
-					this.chargerMessages();
+					this.chargerMessages(true);
 				});
 
 			});
 			this.$bus.$on('charger-message',() => {
-				this.chargerMessages();
+				this.chargerMessages(true);
 			})
 			setInterval(() => {
 				if(this.channel) {
 					this.chargerMessages();
 				}
 			},30000);
+						
 		},
 		methods : {
 			toggleEdit() {
@@ -98,9 +99,9 @@ export default {
 			retour() {
 				this.$bus.$emit('changer-section','channels');				
 			},
-			chargerMessages() {
+			chargerMessages(scroll=false) {
 				this.chargementTermine=false;
-				axios.apiGet('channels/'+this.channel._id+'/posts').then(response => {
+				window.axios.get('channels/'+this.channel._id+'/posts').then(response => {
 					this.messages = response.data;
 
 					this.messages.forEach((message, cle) => {
@@ -116,6 +117,11 @@ export default {
 						message.last=cle == this.messages.length-1;
 						this.messages[cle] = message;
 					});
+					if(scroll)  {
+						setTimeout(function() {
+							window.scrollTo(0,document.body.scrollHeight);
+						},100);
+					}
 					setTimeout(() => {
 						this.chargementTermine=true;
 					},1000);
@@ -132,14 +138,14 @@ export default {
 				if(this.message) {
 					let message=this.message;
 					this.message='';
-					axios.apiPost('channels/'+this.channel._id+'/posts',{message: message}).then(response => {
-						this.chargerMessages()
+					window.axios.post('channels/'+this.channel._id+'/posts',{message: message}).then(response => {
+						this.$bus.$emit('charger-message');
 					});
 
 				}
 			},
 			enregistrerChannel() {
-				axios.apiPut('channels/'+this.channel._id,{
+				window.axios.put('channels/'+this.channel._id,{
 					topic:this.channel.topic,
 					label:this.channel.label 
 				}).then(() => {

@@ -34,7 +34,7 @@ export default {
 		},
 		methods : {
 			chargerChannels(callback=false) {
-				axios.apiGet('channels').then(response => {
+				window.axios.get('channels').then(response => {
 					this.channels =  response.data;
 					if(callback) {
 						callback();				
