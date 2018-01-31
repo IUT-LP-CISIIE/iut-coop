@@ -45,7 +45,7 @@ export default {
 	}
 </script>
 
-<style>
+<style scoped>
 	.channel-list-item .effacer-channel {
 		visibility: hidden;
 	}	

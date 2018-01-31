@@ -2,7 +2,8 @@ import VueRouter from 'vue-router'
 
 const routes = [
   { 
-  	path: '/channels', 
+  	name: 'channels', 
+    path: '/channels', 
   	component: require('./components/Channels').default
   },
   { 
@@ -11,7 +12,8 @@ const routes = [
   	component: require('./components/Channel').default
   },
   { 
-  	path: '/members', 
+  	name: 'members', 
+    path: '/members', 
   	component: require('./components/MembersList').default 
   },
   { path: '*', redirect: '/channels' }

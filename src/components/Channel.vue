@@ -164,7 +164,7 @@ export default {
 	}
 </script>
 
-<style>
+<style scoped>
 	.saisie-message, .saisie-message .control{
 		width: 100%;
 	}

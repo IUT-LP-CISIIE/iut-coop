@@ -91,7 +91,6 @@ export default {
 		data () {
 			return {
 			  mode: 'login',
-			  // token:false,
 			  name:'',
 			  email:'',
 			  password:'',
@@ -105,7 +104,6 @@ export default {
 						email : this.email,
 						password : this.password
 					}).then(response => {
-						// this.token=response.data;
 				        this.$store.commit('setMember',response.data)
 				        this.$store.commit('setToken',response.data.token)
 						this.$bus.$emit('login');

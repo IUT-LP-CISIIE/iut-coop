@@ -7,7 +7,7 @@
     </a>
   </div>
 	<div v-for="section in menu" class="navbar-item">
-	    <router-link exact :to="'/'+section.cle" class="navbar-item" :class="{ 'is-active' : section.actif }" @click="changerSection(section)">
+	    <router-link exact :to="{ name : section.cle }" class="navbar-item" active-class="is-active">
 			<i class="fa" :class="'fa-'+section.icone"></i>
 			{{ section.titre }}
 	    </router-link>
@@ -53,13 +53,11 @@ export default {
 				menu : [
 					{
 						cle : 'channels',
-						actif : true,
 						icone : 'comment',
 						titre : 'Conversations'
 					},
 					{
 						cle : 'members',
-						actif : false,
 						icone : 'user',
 						titre : 'Membres'
 					},
@@ -67,16 +65,12 @@ export default {
 			}
 		},
 		methods : {
-			changerSection(section) {
-				this.$bus.$emit('changer-section',section.cle)
-			},
 			logOut() {
 				this.$bus.$emit('logout');
 			}
 		},
 		computed : {
 			memberLogged() {
-				// let member = JSON.parse(localStorage.getItem('member'));
       			let member = this.$store.state.member;
 				return member.fullname;
 			}
@@ -88,7 +82,7 @@ export default {
 .navbar.navbar-principale {
 	z-index: 31;
 }
-.navbar.navbar-principale .navbar-item.router-link-active{
+.navbar.navbar-principale .navbar-item.is-active{
 	background: white;
 }
 </style>
