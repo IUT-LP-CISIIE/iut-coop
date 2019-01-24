@@ -12,11 +12,11 @@ Vue.use(VueRouter);
 Vue.prototype.$bus = new Vue()
 
 window.axios = axios.create({
-  baseURL: 'http://coop.api.netlor.fr/api/',
+  baseURL: 'http://coop.api.netlor.fr/api',
   params : {
 	token : false
   },
-  headers: { Authorization: 'Token token=e62023d163cd4f0dac88c1cd3d7ee0f3' }
+  headers: { Authorization: 'Token token=19e804d4626e42bf953f4ed88a4720b0' }
 });
 
 
