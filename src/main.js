@@ -16,7 +16,7 @@ window.axios = axios.create({
   params : {
 	token : false
   },
-  headers: { Authorization: 'Token token=19e804d4626e42bf953f4ed88a4720b0' }
+  headers: { Authorization: 'Token token=5a893ad343374ce394aaa4e89f2773c6' }
 });
 
 

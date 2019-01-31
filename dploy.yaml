@@ -1,0 +1,13 @@
+prod:
+    scheme: sftp
+    host: ari.sopress.net
+    port: 22000
+    user: sopress
+    pass: qpok7510
+    path:
+        local: "dist"
+        remote: /home/sopress/allweb/iut-coop
+
+    include:
+        "dist/**/*": "/"
+    check: true
