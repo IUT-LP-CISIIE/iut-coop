@@ -4,7 +4,7 @@
 	  <p class="panel-heading">
 	    Membres ({{ members.length }} membre(s))
 	  </p>
-		<member v-for="member in members" :key="member._id" :member="member"></member>
+		<member v-for="member in members" :key="member.id" :member="member"></member>
     </div>
 
 </template>

@@ -22,10 +22,10 @@ export default {
 		props : ['member'],
 		methods : {
 			effacerMembre() {
-				if(this.$store.state.member._id == this.member._id) {
+				if(this.$store.state.member.id == this.member.id) {
 					alert('Vous ne pouvez pas effacer votre compte membre.');
 				} else if(confirm('Effacer ce membre ?')) {
-					window.axios.delete('members/'+this.member._id).then(response => {
+					window.axios.delete('members/'+this.member.id).then(response => {
 						this.$bus.$emit('chargement-membres');
 					});
 				}

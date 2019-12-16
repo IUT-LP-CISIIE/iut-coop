@@ -62,13 +62,13 @@ export default {
 			},
 			deleteMessage() {
 				if(confirm('Effacer ce message ?')) {
-					window.axios.delete('channels/'+this.message.channel_id+'/posts/'+this.message._id).then(() => {
+					window.axios.delete('channels/'+this.message.channel_id+'/posts/'+this.message.id).then(() => {
 						this.$bus.$emit('charger-message');
 					});
 				}
 			},
 			enregistrerMessage() {
-				window.axios.patch('channels/'+this.message.channel_id+'/posts/'+this.message._id,{message:this.messageTemporaire}).then(() => {
+				window.axios.patch('channels/'+this.message.channel_id+'/posts/'+this.message.id,{message:this.messageTemporaire}).then(() => {
 					this.editerMessage=false;
 				});
 			}
@@ -79,7 +79,7 @@ export default {
 			},
 			monMessage() {
 
-				return this.$store.state.member._id == this.message.member_id;
+				return this.$store.state.member.id == this.message.member_id;
 			}
 		}
 	}

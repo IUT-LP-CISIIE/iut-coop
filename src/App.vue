@@ -30,15 +30,15 @@
       }
     },
     created() {
-      window.axios.get('ping').then((response) => {
+      window.axios.get('ping').then(() => {
 
         this.logIn();
         if(this.member) {
-          window.axios.get('members/'+this.member._id+'/signedin').then((response) => {
+          window.axios.get('members/'+this.member.id+'/signedin').then((response) => {
             this.active = 'ok';
-            this.member = response.data;
-            this.$store.commit('setMember',this.member)
-            this.$store.commit('setToken',this.member.token)
+            this.member = response.data.member;
+            this.$store.commit('setMember',response.data.member)
+            this.$store.commit('setToken',response.data.token)
             this.isLogged = true;
             this.isLoaded = true;
           }).catch((error) => {
@@ -65,7 +65,7 @@
     },
     methods : {
       logOut() {
-        axios.apiDelete('members/signout').then(() => {
+        axios.delete('members/signout').then(() => {
           this.isLogged=false;
           this.member=false;
           this.$store.commit('setMember',false)
@@ -77,7 +77,7 @@
         if(member) {
           this.member=member;
           this.isLogged=true;
-          window.axios.defaults.params.token = this.$store.state.token;
+          // window.axios.defaults.params.token = this.$store.state.token;
         }
       }
     }

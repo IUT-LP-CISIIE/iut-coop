@@ -101,7 +101,7 @@ export default {
 			},
 			chargerMessages(scroll=false) {
 				this.chargementTermine=false;
-				window.axios.get('channels/'+this.channel._id+'/posts').then(response => {
+				window.axios.get('channels/'+this.channel.id+'/posts').then(response => {
 					this.messages = response.data;
 
 					this.messages.forEach((message, cle) => {
@@ -129,7 +129,7 @@ export default {
 			},
 			getMembre(id) {
 				for(var i=0;i<this.members.length;i++) {
-					if(this.members[i]._id == id) {
+					if(this.members[i].id == id) {
 						return this.members[i];
 					}
 				}
@@ -138,14 +138,14 @@ export default {
 				if(this.message) {
 					let message=this.message;
 					this.message='';
-					window.axios.post('channels/'+this.channel._id+'/posts',{message: message}).then(response => {
+					window.axios.post('channels/'+this.channel.id+'/posts',{message: message}).then(response => {
 						this.$bus.$emit('charger-message');
 					});
 
 				}
 			},
 			enregistrerChannel() {
-				window.axios.put('channels/'+this.channel._id,{
+				window.axios.put('channels/'+this.channel.id,{
 					topic:this.channel.topic,
 					label:this.channel.label 
 				}).then(() => {

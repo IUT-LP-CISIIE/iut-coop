@@ -48,6 +48,7 @@
 				    <button class="button is-success">
 				      Créer un compte
 				    </button>
+				    <button class="button is-text" @click.stop.prevent="mode='login'">Annuler</button>
 				  </p>
 				</div>
 
@@ -91,10 +92,10 @@ export default {
 		data () {
 			return {
 			  mode: 'login',
-			  name:'',
-			  email:'',
-			  password:'',
-			  password_confirm:''
+			  name:'ok',
+			  email:'ok@ok.ok',
+			  password:'ok',
+			  password_confirm:'ok'
 			}
 		},
 		methods : {
@@ -104,11 +105,11 @@ export default {
 						email : this.email,
 						password : this.password
 					}).then(response => {
-				        this.$store.commit('setMember',response.data)
+				        this.$store.commit('setMember',response.data.member)
 				        this.$store.commit('setToken',response.data.token)
 						this.$bus.$emit('login');
 					}).catch(error => {
-						alert(error.response.data.error);
+						alert(error.response.data.message);
 					});
 				} else {
 					if(this.password != this.password_confirm) {
@@ -122,7 +123,7 @@ export default {
 							alert('Compte créé avec succès');
 							this.mode = 'login';
 						}).catch(error => {
-							alert(error.response.data.error.join("\n"));
+							alert(error.response.data.message);
 						});
 					}
 					

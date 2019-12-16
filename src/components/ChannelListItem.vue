@@ -4,7 +4,7 @@
     <span class="panel-icon">
       <i class="fa fa-comment"></i>
     </span>
-	<router-link exact :to="{ name: 'channel', params : {id:channel._id} }">
+	<router-link exact :to="{ name: 'channel', params : {id:channel.id} }">
     <b>{{ channel.topic }}</b>  <span class="tag">{{ channel.label }}</span>
 	</router-link>
     <a class="panel-icon effacer-channel" @click="effacerChannel">
@@ -34,7 +34,7 @@ export default {
 			effacerChannel() {
 				if(confirm('Effacer ce channel ?')) {
 					if(confirm('Vous êtes vraiment sûr ?')) {
-						window.axios.delete('channels/'+this.channel._id).then(() => {
+						window.axios.delete('channels/'+this.channel.id).then(() => {
 							this.$bus.$emit('afficher-channels');
 						});
 					}
